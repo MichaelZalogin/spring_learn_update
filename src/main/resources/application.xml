@@ -7,29 +7,33 @@
     <!--    <bean id="pool1" name="p1,p2,p3" class="com.application.spring.database.pool.ConnectionPool"/>-->
     <bean id="pool2" class="com.application.spring.database.pool.ConnectionPool">
         <constructor-arg type="java.lang.String" index="0" name="username" ref="driver"/>
-        <constructor-arg type="java.lang.Integer" index="1" value="10"/>
-        <constructor-arg type="java.util.List" index="2">
+        <constructor-arg type="java.lang.Integer" index="1" name="poolSize" value="10"/>
+        <constructor-arg type="java.util.List" index="2" name="args">
             <list>
                 <value>--arg1=valie1</value>
                 <value>--arg2=valie2</value>
                 <value>--arg3=valie3</value>
-                <ref bean="conversionService"/>
             </list>
         </constructor-arg>
-        <constructor-arg type="java.util.Map" name="properties">
+        <constructor-arg name="properties" type="java.util.Map">
+            <null/>
+        </constructor-arg>
+        <property name="properties">
             <map>
                 <entry key="URL" value="postgresUrl"/>
                 <entry key="password" value="123"/>
                 <entry key="driver" value-ref="pool2"/>
             </map>
-        </constructor-arg>
+        </property>
+
     </bean>
 
     <bean id="driver" class="java.lang.String">
         <constructor-arg type="java.lang.String" value="PostgresDriver"/>
     </bean>
 
-    <bean id="companyRepository" class="com.application.spring.database.repository.CompanyRepository" factory-method="of">
+    <bean id="companyRepository" class="com.application.spring.database.repository.CompanyRepository"
+          factory-method="of">
         <constructor-arg ref="pool2"/>
     </bean>
 
